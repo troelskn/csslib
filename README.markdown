@@ -8,6 +8,14 @@ License
 
 CSSlib is licensed under MIT License.
 
+Installation
+---
+
+You can install CSSlib through [pearhub.org](http://pearhub.org/). Just type:
+
+    pear channel-discover pearhub.org
+    pear install pearhub/csslib
+
 CSS Selector
 ---
 

@@ -295,20 +295,26 @@ class csslib_DomCssQuery {
           $axis .= "[@".$reg[2]."]";
           $token = $reg[1];
         }
+        // At this point, were replacing a simple nodeName match with the namespace-agnostic *[local-name()="nodeName"]
+        // There are some special cases (axis), that gets treated at the same time
+        // Since we're manipulating $token directly, this must come after all the matching on $token above.
         if (preg_match('~^(\w+):first-child$~', $token, $reg)) { // first-child
-          $token = '*[1]/self::' . $reg[1];
+          $token = '*[1]/self::*[local-name()="' . $reg[1] . '"]';
         } else if (preg_match('~^(\w+):last-child$~', $token, $reg)) { // last-child
-          $token = '*[last()]/self::' . $reg[1];
+          $token = '*[last()]/self::*[local-name()="' . $reg[1] . '"]';
         } else if (preg_match('~^(\w+):(link|hover|visit|active)$~', $token, $reg)) { // link pseudo-classes
-          $token = $reg[1];
+          $token = '*[local-name()="' . $reg[1] . '"]';
         } else if (!preg_match('~^[\w*]*$~', $token)) {
           throw new Exception("Invalid or unsupported CSS syntax near '$token'");
+        } else if ($token) {
+          $token = '*[local-name()="' . $token . '"]';
+        } else {
+          $token = '*';
         }
-        // No more matching on token beyond this point!
         if ($separator) {
           $tokens[] = $separator;
         }
-        $tokens[] = ($token ? $token : '*') . $axis;
+        $tokens[] = $token . $axis;
         $separator = '//';
       }
     }

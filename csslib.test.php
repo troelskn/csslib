@@ -101,4 +101,20 @@ class csslib_TestOfDomCssQuery extends UnitTestCase {
       $doc->saveXml($q->find('a:active', $doc)),
       '<a>first</a>');
   }
+  function test_ignores_namespaces() {
+    $doc = new DomDocument();
+    $doc->loadXml('<ul xmlns:x="foo" xmlns:y="bar"><x:a>first</x:a><y:a>second</y:a><a>third</a></ul>');
+    $q = new csslib_DomCssQuery($doc);
+    $result = $q->query('ul a', $doc);
+    $this->assertEqual($result->length, 3);
+    $this->assertEqual(
+      $doc->saveXml($result->item(0)),
+      '<x:a>first</x:a>');
+    $this->assertEqual(
+      $doc->saveXml($result->item(1)),
+      '<y:a>second</y:a>');
+    $this->assertEqual(
+      $doc->saveXml($result->item(2)),
+      '<a>third</a>');
+  }
 }

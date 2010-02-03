@@ -9,6 +9,8 @@ The library consists of three main components:
 * CSS Parser
 * CSS Inliner
 
+In addition, there is a smarty plugin, wrapping the CSS inliner.
+
 License
 ---
 
@@ -73,3 +75,11 @@ The CSS inliner can take a CSS document and apply all the rules as inline styles
     $inliner->apply($document);
     // And display it
     echo $document->saveHtml();
+
+###Smarty plugin
+
+There is also a smarty plugin, which wraps the css inliner functionality. Use as follows:
+
+    {cssinline stylesheet="style.css"}
+
+This will register an output filter, that loads the stylesheet and applies it to the template output.

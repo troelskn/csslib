@@ -3,6 +3,12 @@ CSS parsing and CSS selectors for PHP
 
 CSSlib provides a couple of utilities for working with CSS. Including a CSS parser, a CSS2-selector and a CSS inliner.
 
+The library consists of three main components:
+
+* CSS Selector
+* CSS Parser
+* CSS Inliner
+
 License
 ---
 
